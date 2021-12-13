@@ -3,7 +3,6 @@ package Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,26 +13,27 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import Models.Movies;
+import Services.services;
 
 @RequestMapping
 @RestController
 public class Controller {
-	private Controller control;
-	private Service service;
+	
+	private services service;
 	
 	@Autowired
-	public Controller(Service service) {
+	public Controller(services service) {
 		this.service = service;
 	}
 	
 	@GetMapping("/")
 	public List<Movies> getMovies(){
-		return service.getMovies();
+		return service.getMovie();
 	}
 	
 	@PostMapping("/addMovie")
 	public Movies createMovie(@RequestBody Movies movie) {
-		return service.createMovie();
+		return service.createMovie(movie);
 	}
 	
 	@DeleteMapping("/deleteMovie")

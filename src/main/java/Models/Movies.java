@@ -6,12 +6,13 @@ public class Movies {
 	private Integer year;
 	private String director;
 	private String gender;
+	private String description;
 	private String plot;
 	private String classified;
 	private Integer rate;
 	private Double duration;
 	
-	public Movies(Integer id, String title, Integer year, String director, String gender, String plot,
+	public Movies(Integer id, String title, Integer year, String director, String gender, String description, String plot,
 			String classified, Integer rate, Double duration) {
 		super();
 		this.id = id;
@@ -19,12 +20,21 @@ public class Movies {
 		this.year = year;
 		this.director = director;
 		this.gender = gender;
+		this.description = description;
 		this.plot = plot;
 		this.classified = classified;
 		this.rate = rate;
 		this.duration = duration;
 	}
 	
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public Movies() {
 	}
 
