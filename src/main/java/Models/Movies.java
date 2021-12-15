@@ -1,6 +1,6 @@
 package Models;
 
-public class Movies {
+public class Movies implements Comparable<Movies> {
 	private Integer id;
 	private String title;
 	private Integer year;
@@ -108,6 +108,12 @@ public class Movies {
 
 	public void setDuration(Double duration) {
 		this.duration = duration;
+	}
+
+	
+	@Override
+	public int compareTo(Movies o) {
+		return rate.compareTo(o.getRate());
 	}
 	
 	

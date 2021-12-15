@@ -46,4 +46,29 @@ public class Controller {
 	public Movies updateMovie(Movies movie) {
 		return service.updateMovie(movie);
 	}
+	
+	@GetMapping("/searchId")
+	public Movies findId(@PathVariable Integer id) {
+		return service.findId(id);
+	}
+	
+	@GetMapping("/searchTitle")
+	public Movies findTitle(@PathVariable String title) {
+		return service.findTitle(title);
+	}
+	
+	@GetMapping("/searchClassified")
+	public List<Movies> findClassified(@PathVariable String classified) {
+		return service.findClassified(classified);
+	}
+	
+	@GetMapping("/topRate")
+	public List<Movies> compare(){
+		return service.compare();
+	}
+	
+	/*@GetMapping("/topRate")
+	public List<Movies> topRate() {
+		return service.topRate();
+	}*/
 }

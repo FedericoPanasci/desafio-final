@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Iterator;
 import java.util.List;
 @RestController
 @SpringBootApplication
 public class Main {
-    public static void main(String[] args) {
+    private static final String Number = null;
+	public static void main(String[] args) {
         SpringApplication.run(ProjectMoviesApplication.class, args);
     }
     @GetMapping
@@ -39,7 +42,19 @@ public class Main {
     }
     @DeleteMapping
     public List<Movies> delete(Movies movie){
-    	Number index = movie.indexOf
+    	Number index = ((List<Movies>) movie).indexOf(movie.getTitle());
+    	((List<Movies>) movie).remove(index);
+    	return List.of(movie);
     }
-    
+    @PutMapping
+    public List<Movies> update(Movies movie, Movies title){   	
+    	Number index = movie.indexOf(title);
+    	Iterator it = movie.iterator();
+    	if(it == index) {
+    			movie = title;
+    		}
+    	
+    	return List.of(movie);
+    	
+    }
 }
