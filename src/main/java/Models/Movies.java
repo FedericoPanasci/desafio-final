@@ -1,15 +1,36 @@
 package Models;
 
-public class Movies implements Comparable<Movies> {
+import java.io.Serializable;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Movies implements Comparable<Movies>, Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(nullable = false, updatable = false)
 	private Integer id;
+	@Column(name = "title", length = 40)
 	private String title;
+	@Column(name = "year")
 	private Integer year;
+	@Column(name = "director", length = 40)
 	private String director;
+	@Column(name = "gender", length = 40)
 	private String gender;
+	@Column(name = "description", length = 40)
 	private String description;
+	@Column(name = "plot", length = 400)
 	private String plot;
+	@Column(name = "classified", length = 40)
 	private String classified;
+	@Column(name = "rate")
 	private Integer rate;
+	@Column(name = "duration")
 	private Double duration;
 	
 	public Movies(Integer id, String title, Integer year, String director, String gender, String description, String plot,

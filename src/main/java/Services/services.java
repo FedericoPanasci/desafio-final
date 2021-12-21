@@ -1,16 +1,84 @@
 package Services;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-import org.springframework.stereotype.Service;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import javax.swing.text.html.Option;
+
+import java.util.Comparator;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.repository.Repository;
+import org.springframework.stereotype.Service;
+import Repository.MovieRepository;
 import Models.Movies;
 
 @Service
 public class services {
-	public List<Movies> movies;
+	
+	private final MovieRepository movieRepository;
+	
+	@Autowired
+	public services ( MovieRepository movieRepository){
+	this.movieRepository=movieRepository;
+	}
+	
+	public List<Movies> getMovies(){
+		return movieRepository.findAll();
+	}
+	
+	public Movies createMovie(Movies movie) {
+		return movieRepository.save(movie);
+	}
+	
+	public void deleteById(Integer id) {
+		movieRepository.deleteById(id);
+	}
+	
+
+	public Movies updateMovie(Movies peli, Integer id) throws Exception{
+		try {
+			Optional<Movies> peliuptade = movieRepository.findById(id);
+			if (!peliuptade.isEmpty()) {
+				return movieRepository.save(peli);			
+			}
+		} catch (Exception e) {
+			throw new Exception (e.getMessage());
+		}
+		return null;
 		
+	}
+	
+	public Optional<Movies> findId(Integer id) {
+		return movieRepository.findById(id);
+	}
+	
+	public List<Movies> findTitle(String title){	
+		return movieRepository.findByTitle(title);
+		
+	}
+
+	public List<Movies> topMovies() {
+		return movieRepository.filterPopular(PageRequest.of(0,3));
+	}
+
+	public List<Movies> findClassified(String classified) {
+		return movieRepository.findATP();
+	}
+	
+	
+	
+//	
+//	public Movies findTitle(String title) {
+//		return movieRepository.findAllById(null);
+//	}
+	
+	//public List<Movies> movies;
+	/*
+	public Repository<Movies, Integer> repo;
+	
 	public services(List<Movies> movie) {
 		this.movies = movie;
 	}
@@ -18,7 +86,7 @@ public class services {
 	public List<Movies> getMovie() {
 		return movies;
 	}
-
+	
 	public void setMovie(List<Movies> movie) {
 		this.movies = movie;
 	}
@@ -48,43 +116,14 @@ public class services {
 		return movie;
 	}
 
-	public Movies findId(Integer id) {
-		return movies.stream().filter(m -> m.getId() == id).findAny().get();
-		//Integer pos = -1;
-		/*for(Integer i=0; i < movies.size(); i++) {
-			if(movies.get(i).getId() == id) {
-				pos = i;
-			}
-		}
-		
-		if(pos != -1) {
-			aux = movies.get(pos);
-		} else {
-			aux = null;
-		}*/
-		//return (Movies) aux;
-	}
-
 	
-	public Movies findTitle(String title) {
-		return movies.stream().filter(m -> m.getTitle() == title).findAny().get();
+	
+	public List<Movies> findClassified(String classified){
+	    return movies.stream().filter(m -> m.getClassified().equals(classified)).collect(Collectors.toList());
 	}
 
-	public List<Movies> findClassified(String classified) {
-		ArrayList<Movies> aux1 = new ArrayList<Movies>();
-		for(Integer i = 0; i < movies.size(); i++) {
-			if (movies.get(i).getClassified().equals(classified)) {
-				aux1.add(movies.get(i));
-			}
-		}
-		return aux1;
-	}
-
-	public List<Movies> compare (){
-		List <Movies> aux = movies;
-		Collections.sort(aux);
-		return aux;//movies.sort((m1, m2) -> m1.getRate().getValue().compareTo(m2.getRate().getValue())).collect(Collectors.toList());
-		//return movies.stream().sorted(Comparator.comparingInt(Movies.class::getRate)).findAny().get();
+	public List<Movies> topMovies(){
+	    return movies.stream().sorted(Comparator.comparing(Movies::getRate).reversed()).limit(3).collect(Collectors.toList());
 	}
 	
 	/*public List<Movies> topRate() {

@@ -1,8 +1,10 @@
 package Controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import Models.Movies;
 import Services.services;
 
-@RequestMapping
+@RequestMapping("api")
 @RestController
 public class Controller {
 	
@@ -25,10 +27,15 @@ public class Controller {
 	public Controller(services service) {
 		this.service = service;
 	}
+	@Autowired
+	public JpaRepository<Movies, Integer> repo;
+	
+	
 	
 	@GetMapping("/")
 	public List<Movies> getMovies(){
-		return service.getMovie();
+		return service.getMovies();
+		
 	}
 	
 	@PostMapping("/addMovie")
@@ -36,38 +43,51 @@ public class Controller {
 		return service.createMovie(movie);
 	}
 	
+	
 	@DeleteMapping("/deleteMovie")
-	public boolean deleteMovie(@PathVariable Integer id) {
-		return service.deleteMovie(id);
-		
+	public void deleteMovie(@PathVariable Integer id) {
+		service.deleteById(id);
 	}
 	
-	@PutMapping("/updateMovie")
-	public Movies updateMovie(Movies movie) {
-		return service.updateMovie(movie);
+	@PutMapping("/updateMovie/{id}")
+	public Movies updateMovie(@RequestBody Movies movie, @PathVariable Integer id) throws Exception{
+		try {
+			return service.updateMovie(movie, id);			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		return movie;
 	}
 	
-	@GetMapping("/searchId")
-	public Movies findId(@PathVariable Integer id) {
+	@GetMapping("/searchId/{id}")
+	public Optional<Movies> findId(@PathVariable Integer id) {
 		return service.findId(id);
 	}
 	
-	@GetMapping("/searchTitle")
-	public Movies findTitle(@PathVariable String title) {
+	
+	@GetMapping("/searchTitle/{title}")
+	public List<Movies> findTitle(@PathVariable String title) {
 		return service.findTitle(title);
 	}
+
+	@GetMapping("/topRate")
+	public List<Movies> topMovies(){
+		return service.topMovies();
+	}
 	
-	@GetMapping("/searchClassified")
+	@GetMapping("/ATP")
 	public List<Movies> findClassified(@PathVariable String classified) {
 		return service.findClassified(classified);
 	}
+	/*
+	
 	
 	@GetMapping("/topRate")
-	public List<Movies> compare(){
-		return service.compare();
+	public List<Movies> topMovies(){
+		return service.topMovies();
 	}
 	
-	/*@GetMapping("/topRate")
+	@GetMapping("/topRate")
 	public List<Movies> topRate() {
 		return service.topRate();
 	}*/
