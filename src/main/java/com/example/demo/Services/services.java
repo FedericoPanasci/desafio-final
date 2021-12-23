@@ -2,15 +2,8 @@ package Services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
-import javax.swing.text.html.Option;
-
-import java.util.Comparator;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.repository.Repository;
 import org.springframework.stereotype.Service;
 import Repository.MovieRepository;
 import Models.Movies;
