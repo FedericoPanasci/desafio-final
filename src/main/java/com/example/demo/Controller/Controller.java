@@ -1,11 +1,12 @@
-package Controller;
+package com.example.demo.Controller;
 
 import java.util.List;
 import java.util.Optional;
 
+import com.example.demo.Models.Movies;
+import com.example.demo.Services.services;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,24 +16,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import Models.Movies;
-import Services.services;
-
-@RequestMapping("api")
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@RequestMapping("/api")
 public class Controller {
 	
-	private services service;
+	private final services service;
 	
 	@Autowired
 	public Controller(services service) {
 		this.service = service;
-	}
-	@Autowired
-	public JpaRepository<Movies, Integer> repo;
-	
-	
+	}	
 	
 	@GetMapping("/")
 	public List<Movies> getMovies(){
@@ -44,7 +37,6 @@ public class Controller {
 	public Movies createMovie(@RequestBody Movies movie) {
 		return service.createMovie(movie);
 	}
-	
 	
 	@DeleteMapping("/deleteMovie")
 	public void deleteMovie(@PathVariable Integer id) {
@@ -66,7 +58,6 @@ public class Controller {
 		return service.findId(id);
 	}
 	
-	
 	@GetMapping("/searchTitle/{title}")
 	public List<Movies> findTitle(@PathVariable String title) {
 		return service.findTitle(title);
@@ -81,16 +72,4 @@ public class Controller {
 	public List<Movies> findClassified(@PathVariable String classified) {
 		return service.findClassified(classified);
 	}
-	/*
-	
-	
-	@GetMapping("/topRate")
-	public List<Movies> topMovies(){
-		return service.topMovies();
-	}
-	
-	@GetMapping("/topRate")
-	public List<Movies> topRate() {
-		return service.topRate();
-	}*/
 }

@@ -1,4 +1,4 @@
-package Models;
+package com.example.demo.Models;
 
 import java.io.Serializable;
 
@@ -33,6 +33,10 @@ public class Movies implements Comparable<Movies>, Serializable {
 	@Column(name = "duration")
 	private Double duration;
 	
+	public Movies(){
+		super();
+	}
+
 	public Movies(Integer id, String title, Integer year, String director, String gender, String description, String plot,
 			String classified, Integer rate, Double duration) {
 		super();
@@ -54,9 +58,6 @@ public class Movies implements Comparable<Movies>, Serializable {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Movies() {
 	}
 
 	public Integer getId() {
